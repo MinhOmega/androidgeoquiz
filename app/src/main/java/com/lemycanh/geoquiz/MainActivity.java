@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Question> mQuestionList;
     int mCurrentQuestionIndex;
+
+    @BindView(R.id.question_maincontent)
+    ViewGroup vgQuestionContent;
 
     @BindView(R.id.tv_question)
     TextView mTvQuestion;
@@ -76,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         if(mCurrentQuestionIndex == 0) return;
         mCurrentQuestionIndex--;
         showQuestion();
+        Animation anim = AnimationUtils.loadAnimation(this,R.anim.push_right_in);
+        vgQuestionContent.startAnimation(anim);
     }
 
     @OnClick(R.id.btn_next)
@@ -83,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
         if(mCurrentQuestionIndex == mQuestionList.size() - 1) return;
         mCurrentQuestionIndex++;
         showQuestion();
+        Animation anim = AnimationUtils.loadAnimation(this,R.anim.push_left_in);
+        vgQuestionContent.startAnimation(anim);
     }
 
     @Override

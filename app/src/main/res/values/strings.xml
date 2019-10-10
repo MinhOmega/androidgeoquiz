@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">GeoQuiz</string>
+    <string name="cauhoi">Thái Bình Dương lớn hơn Đại Tây Dương?</string>
+    <string name="dung">True</string>
+    <string name="sai">False</string>
+    <string name="traloidung">Bạn trả lời đúng</string>
+    <string name="traloisai">Bạn trả lời sai</string>
+    <string name="questionA">Châu Á Thái Bình Dương lớn hơn Đại Tây Dương</string>
+    <string name="questionB">Diện tích Việt Nam lớn hơn Diện tích Trung Quốc</string>
+    <string name="questionC">Huế giáp ranh Đà Nẵng</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="cheat">Cheat</string>
+    <string name="cheatwarning">Nếu sử dụng tính năng này bạn sẽ không được tính điểm</string>
+    <string name="show_answer">Show answer!</string>
+    <string name="answer_is">Câu trả lời là:</string>
+</resources>

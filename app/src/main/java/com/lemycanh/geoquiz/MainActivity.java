@@ -11,9 +11,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int CHEAT_INTENT_CODE = 1;
     final String TAG = "GeoQuiz";
 
-    ArrayList<Question> mQuestionList;
+    List<Question> mQuestionList;
     int mCurrentQuestionIndex;
 
     @BindView(R.id.question_maincontent)
@@ -59,10 +60,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == CHEAT_INTENT_CODE) {
-            if(resultCode == RESULT_OK) {
+        if (requestCode == CHEAT_INTENT_CODE) {
+            if (resultCode == RESULT_OK) {
                 Question currentQuestion = mQuestionList.get(mCurrentQuestionIndex);
-                Toast.makeText(getApplicationContext(), getString(R.string.answer_is) + currentQuestion.IsTrue(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.answer_is) + currentQuestion.getAnswer(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void answer(boolean b) {
         Question currentQuestion = mQuestionList.get(mCurrentQuestionIndex);
-        if(currentQuestion.IsTrue() == b) {
+        if (currentQuestion.getAnswer() == b) {
             Toast.makeText(getApplicationContext(), R.string.traloidung, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getApplicationContext(), R.string.traloisai, Toast.LENGTH_SHORT).show();
@@ -78,20 +79,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @OnClick(R.id.btn_previous)
-    void OnBtnPreviousClick(View v){
-        if(mCurrentQuestionIndex == 0) return;
+    void OnBtnPreviousClick(View v) {
+        if (mCurrentQuestionIndex == 0) return;
         mCurrentQuestionIndex--;
         showQuestion();
-        Animation anim = AnimationUtils.loadAnimation(this,R.anim.push_right_in);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.push_right_in);
         vgQuestionContent.startAnimation(anim);
     }
 
     @OnClick(R.id.btn_next)
-    void OnBtnNextClick(View v){
-        if(mCurrentQuestionIndex == mQuestionList.size() - 1) return;
+    void OnBtnNextClick(View v) {
+        if (mCurrentQuestionIndex == mQuestionList.size() - 1) return;
         mCurrentQuestionIndex++;
         showQuestion();
-        Animation anim = AnimationUtils.loadAnimation(this,R.anim.push_left_in);
+        Animation anim = AnimationUtils.loadAnimation(this, R.anim.push_left_in);
         vgQuestionContent.startAnimation(anim);
     }
 
@@ -152,15 +153,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showQuestion() {
-        Question currentQuestion = mQuestionList.get(mCurrentQuestionIndex);
-        mTvQuestion.setText(currentQuestion.getContent());
+        mTvQuestion.setText(mQuestionList.get(mCurrentQuestionIndex).getContent());
+//        Question currentQuestion = mQuestionList.get(mCurrentQuestionIndex);
+//        mTvQuestion.setText(currentQuestion.getContent());
     }
 
     private void loadQuestion() {
-        mQuestionList = new ArrayList<>();
-        mQuestionList.add(new Question(getString(R.string.questionA), true));
-        mQuestionList.add(new Question(getString(R.string.questionB), false));
-        mQuestionList.add(new Question(getString(R.string.questionC), true));
+//        mQuestionList = new ArrayList<>();
+        QuestionDao questionDao = GeoQuizApplication.Instance().getDaoSession().getQuestionDao();
+        mQuestionList = questionDao.loadAll();
+//        mQuestionList.add(new Question(getString(R.string.questionA), true));
+//        mQuestionList.add(new Question(getString(R.string.questionB), false));
+//        mQuestionList.add(new Question(getString(R.string.questionC), true));
         mCurrentQuestionIndex = 0;
     }
 }
